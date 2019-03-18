@@ -1,0 +1,23 @@
+{
+  "name": "node-red-contrib-telldus-sensor",
+  "version": "0.0.1",
+  "description": "A Node-RED node to read sensor values from Telldus Live",
+  "scripts": {
+    "test": "REMOVE"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TommyBlomberg/NodeRedTelldusSensor.git"
+  },
+  "author": "Tommy Blomberg <tommy.blomberg.1@gmail.com>",
+  "license": "Apache-2.0",
+  "node-red": {
+    "nodes": {
+      "telldus-sensor": "telldus-sensor.js"
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/TommyBlomberg/NodeRedTelldusSensor/issues"
+  },
+  "homepage": "https://github.com/TommyBlomberg/NodeRedTelldusSensor#readme"
+}
