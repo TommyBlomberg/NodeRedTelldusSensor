@@ -1,26 +1,41 @@
 <script type="text/javascript">
-    RED.nodes.registerType('telldus-sensor', {
-        category: 'Telldus',
-        color: '#f3b567',
-        defaults: {
-            name: { value: "" }
-        },
-        inputs: 1,
-        outputs: 1,
-        icon: "bridge.png",
-        label: function () {
-            return this.name || "telldus-sensor";
-        }
-    });
+  RED.nodes.registerType("telldus-sensor", {
+    category: "Telldus",
+    color: "#f3b567",
+    defaults: {
+      name: { value: "" },
+      id: { value: 0, validate: RED.validators.number(), required: true }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "bridge.png",
+    label: function() {
+      return this.name || "telldus-sensor";
+    }
+  });
 </script>
 
 <script type="text/x-red" data-template-name="telldus-sensor">
-    <div class="form-row">
-        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
-    </div>
+  <div class="form-row">
+      <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+      <label for="node-input-id"><i class="icon-tag"></i> Id</label>
+      <input type="text" id="node-input-id">
+  </div>
+  <div class="form-tips" id="node-tip">
+      <span><strong>Note:</strong> Id is the sensors <code>id</code> field in Telldus Live, <strong>NOT</strong> the <code>sensorId</code> field</span>
+  </div>
 </script>
 
 <script type="text/x-red" data-help-name="telldus-sensor">
-    <p>A node that reads a sensors values in Telldus Live</p>
+  <p> A node that reads a sensors values in Telldus Live</p>
+
+  <h3>Details</h3>
+
+  <h3>References</h3>
+  <ul>
+      <li><a href="https://api.telldus.com/">Telldus API</a> documentation</li>
+  </ul>
 </script>
