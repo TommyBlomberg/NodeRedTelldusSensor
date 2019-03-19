@@ -6,6 +6,12 @@
       name: { value: "" },
       id: { value: 0, validate: RED.validators.number(), required: true }
     },
+    credentials: {
+      public_key: { type: "text", required: true },
+      private_key: { type: "text", required: true },
+      token: { type: "text", required: true },
+      token_secret: { type: "text", required: true }
+    },
     inputs: 1,
     outputs: 1,
     icon: "bridge.png",
@@ -17,15 +23,29 @@
 
 <script type="text/x-red" data-template-name="telldus-sensor">
   <div class="form-row">
-      <label for="node-input-name"><i class="icon-tag"></i> Name</label>
-      <input type="text" id="node-input-name" placeholder="Name">
+    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
   </div>
   <div class="form-row">
-      <label for="node-input-id"><i class="icon-tag"></i> Id</label>
-      <input type="text" id="node-input-id">
+    <label for="node-input-id"><i class="icon-tag"></i> Id</label>
+    <input type="text" id="node-input-id">
   </div>
-  <div class="form-tips" id="node-tip">
-      <span><strong>Note:</strong> Id is the sensors <code>id</code> field in Telldus Live, <strong>NOT</strong> the <code>sensorId</code> field</span>
+  <hr>
+  <div class="form-row">
+    <label for="node-input-public_key"><i class="icon-tag"></i> Public key</label>
+    <input type="text" id="node-input-public_key">
+  </div>
+  <div class="form-row">
+    <label for="node-input-private_key"><i class="icon-tag"></i> Private key</label>
+    <input type="text" id="node-input-private_key">
+  </div>
+  <div class="form-row">
+    <label for="node-input-token"><i class="icon-tag"></i> Token</label>
+    <input type="text" id="node-input-token">
+  </div>
+  <div class="form-row">
+    <label for="node-input-token_secret"><i class="icon-tag"></i> Token secret</label>
+    <input type="text" id="node-input-token_secret">
   </div>
 </script>
 
@@ -33,6 +53,7 @@
   <p> A node that reads a sensors values in Telldus Live</p>
 
   <h3>Details</h3>
+  <p><strong>Note:</strong> Id is the sensors <code>id</code> field in Telldus Live, <strong>NOT</strong> the <code>sensorId</code> field</p>
 
   <h3>References</h3>
   <ul>
