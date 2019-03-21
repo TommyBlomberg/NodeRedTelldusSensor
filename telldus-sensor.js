@@ -17,17 +17,40 @@ module.exports = function(RED) {
 
       api.login(this.credentials.token, this.credentials.token_secret, function(err, user) {
         if (!!err) {
-          var errorMessage = `Login failed: ${err.message}`;
+          var error = JSON.parse(err.data).error;
+          var errorMessage = `Login failed: ${err.statusCode} - ${error}`;
           node.status({ fill: "red", shape: "ring", text: errorMessage });
-
-          return node.log(errorMessage);
+          return node.error(errorMessage);
         }
 
         node.status({ fill: "green", shape: "dot", text: `Login succesful for ${user.firstname} ${user.lastname}` });
-        node.log(`user: ${JSON.stringify(user, null, 2)}`);
 
-        msg.payload = `The Id of ${node.name} is ${node.id}`;
-        node.send(msg);
+        var sensor = {};
+        sensor.id = node.id;
+        api.getSensorInfo(sensor, function(err, sensorInfo) {
+          if (!!err) {
+            var error = JSON.parse(err.data).error;
+            var errorMessage = `getSensorInfo failed: ${err.statusCode} - ${error}`;
+            node.status({ fill: "red", shape: "ring", text: errorMessage });
+            return node.error(errorMessage);
+          }
+
+          if (sensorInfo.error) {
+            var errorMessage = `getSensorInfo failed: ${sensorInfo.error}`;
+            node.status({ fill: "red", shape: "ring", text: errorMessage });
+            return node.error(errorMessage);
+          }
+
+          var dataItems = [];
+          sensorInfo.data.forEach(item => {
+            var dataItem = `"${item.name}": ${item.value}`;
+            dataItems.push(dataItem);
+          });
+          var dataItemsJson = `{${dataItems.join(",")}}`;
+          msg.payload = JSON.parse(dataItemsJson);
+
+          node.send(msg);
+        });
       });
     });
   }
