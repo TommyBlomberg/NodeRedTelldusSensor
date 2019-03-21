@@ -6,24 +6,7 @@ module.exports = function(RED) {
     var node = this;
 
     node.on("input", function(msg) {
-      var missingCredentials = [];
-      if (this.credentials.public_key == "" || this.credentials.public_key == null) {
-        missingCredentials.push("Public key");
-      }
-      if (this.credentials.private_key == "" || this.credentials.private_key == null) {
-        missingCredentials.push("Private key");
-      }
-      if (this.credentials.token == "" || this.credentials.token == null) {
-        missingCredentials.push("Token");
-      }
-      if (this.credentials.token_secret == "" || this.credentials.token_secret == null) {
-        missingCredentials.push("Token secret");
-      }
-
-      if (missingCredentials.length > 0) {
-        var errorMessage = `Error: Following credentials are missing - ${missingCredentials.join(", ")}`;
-        node.status({ fill: "red", shape: "ring", text: errorMessage });
-        node.error(errorMessage);
+      if (hasMissingCredentials(node)) {
         return;
       }
 
@@ -47,6 +30,31 @@ module.exports = function(RED) {
         node.send(msg);
       });
     });
+  }
+
+  function hasMissingCredentials(node) {
+    var missingCredentials = [];
+    if (!node.credentials.public_key) {
+      missingCredentials.push("Public key");
+    }
+    if (!node.credentials.private_key) {
+      missingCredentials.push("Private key");
+    }
+    if (!node.credentials.token) {
+      missingCredentials.push("Token");
+    }
+    if (!node.credentials.token_secret) {
+      missingCredentials.push("Token secret");
+    }
+
+    if (missingCredentials.length > 0) {
+      var errorMessage = `Error: Following credentials are missing - ${missingCredentials.join(", ")}`;
+      node.status({ fill: "red", shape: "ring", text: errorMessage });
+      node.error(errorMessage);
+      return true;
+    }
+
+    return false;
   }
 
   RED.nodes.registerType("telldus-sensor", TelldusSensorNode, {
