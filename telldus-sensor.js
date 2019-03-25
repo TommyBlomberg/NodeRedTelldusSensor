@@ -43,7 +43,8 @@ module.exports = function(RED) {
 
           var dataItems = [];
           sensorInfo.data.forEach(item => {
-            var dataItem = `"${item.name}": ${item.value}`;
+            var name = lookupName(item.name);
+            var dataItem = `"${name}": ${item.value}`;
             dataItems.push(dataItem);
           });
           var dataItemsJson = `{${dataItems.join(",")}}`;
@@ -78,6 +79,14 @@ module.exports = function(RED) {
     }
 
     return false;
+  }
+
+  function lookupName(name) {
+    if (name == "temp") {
+      return "temperature";
+    } else {
+      return name;
+    }
   }
 
   RED.nodes.registerType("telldus-sensor", TelldusSensorNode, {
